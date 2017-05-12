@@ -46,8 +46,12 @@ const createRequestListener = handler => {
       headers: { 'Content-Type': 'text/plain' },
       statusCode: 200,
     };
-    const route = (routes[url]) ?
-      routes[url][method.toLowerCase()] :
+    let cleanUrl = url;
+    if(url.indexOf('?') >= 0) {
+      cleanUrl = url.split('?')[0]
+    }
+    const route = (routes[cleanUrl]) ?
+      routes[cleanUrl][method.toLowerCase()] :
       routes['#'];
     route(req, res).then(data => {
       const { body, headers, statusCode } = Object.assign(defaults, data);
