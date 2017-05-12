@@ -40,9 +40,8 @@ class MyPlugin {
     const fn = this.sls.config.serverless.service.functions[fnName].handler;
     const [handler, graphql] = fn.split('.');
     let fullPath;
-    console.log(this.options)
     if(this.options.location) {
-      fullPath = path.join(process.cwd(), this.options.location ,handler);
+      fullPath = path.join(process.cwd(), this.options.location, handler);
     }else {
       fullPath = path.join(process.cwd(), handler);
     }
