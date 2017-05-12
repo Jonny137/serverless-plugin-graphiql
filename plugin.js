@@ -19,6 +19,10 @@ class MyPlugin {
             usage: 'Port to listen on. Default: 3000',
             shortcut: 'p',
           },
+          location: {
+            usage: 'Relative path to dist, Default: .',
+            shortcut: 'l'
+          }
         },
       },
     };
@@ -35,7 +39,13 @@ class MyPlugin {
     const fnName = this.options.function || 'graphql';
     const fn = this.sls.config.serverless.service.functions[fnName].handler;
     const [handler, graphql] = fn.split('.');
-    const fullPath = path.join(process.cwd(), handler);
+    let fullPath;
+    console.log(this.options)
+    if(this.options.location) {
+      fullPath = path.join(process.cwd(), this.options.location ,handler);
+    }else {
+      fullPath = path.join(process.cwd(), handler);
+    }
     server.start({
       handler: require(fullPath)[graphql],
       port: this.options.port,
